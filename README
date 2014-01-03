@@ -22,7 +22,7 @@ print node.country_name # "United States"
 The `GeoDB` constructor will accept the path to a CSV file, although it defaults to the file distributed with the library.
 
 The default parser assumes the following csv format:
-"&lt;ip lower bound&gt;","&lt;ip upper bound&gt;","&lt;long lower bound&gt;","&lt;long upper bound&gt;","&lt;country code&gt;","&lt;country name&gt;"
+"<ip lower bound>","<ip upper bound>","<long lower bound>","<long upper bound>","<country code>","<country name>"
 
 To parse other formats, inherit from `FastGeo.parsers.DbParser` and implement `.parse()`, `.create_node()`, and `.create_value()`. To use the parser, pass a new instance to the `GeoDB` constructor.
 
