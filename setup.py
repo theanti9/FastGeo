@@ -2,12 +2,12 @@ from setuptools import setup, find_packages
 
 setup(name="FastGeo",
 		description="A fast, in-memory GeoIP data lookup module",
-		download_url="https://github.com/theanti9/FastGeo/archive/v0.1.1-alpha.tar.gz",
+		download_url="https://github.com/theanti9/FastGeo/releases/download/v0.1.2-alpha/FastGeo-0.1.2-py2.7.egg",
 		long_description=open("README.md", 'r').read(),
 		author="Ryan Merl",
 		author_email="ryan@ryanmerl.com",
 		url="https://github.com/theanti9/FastGeo",
-		version="0.1.1-alpha",
+		version="0.1.2",
 		install_requires=[
 			"bintrees>=2.0.1"
 		],
