@@ -1,5 +1,7 @@
 import socket, struct, re, sys, os, csv
 from parsers import DbParser
+from bintrees import FastAVLTree
+
 
 class MaxMindGeoLiteCSVParser(DbParser):
 	"""
@@ -39,19 +41,18 @@ class MaxMindGeoLiteCSVParser(DbParser):
 				value = self.create_value(line)
 				yield (node, value)
 
-
 	def create_node(self, line):
 		"""
 		Creates a GeoNode from a line of the parsed CSV file.
 		"""
 		return GeoNode(long(line[self.fields["long_lower"]]), long(line[self.fields["long_upper"]]))
 
-
 	def create_value(self, line):
 		"""
 		Creates a GeoValue from a line of the parsed CSV file.
 		"""
 		return GeoValue(line[self.fields["ip_lower"]], line[self.fields["ip_upper"]], line[self.fields["country_code"]], line[self.fields["country_name"]])
+
 
 class GeoNode(object):
 	"""
@@ -123,7 +124,52 @@ class GeoValue(object):
 		self.country_code = country_code
 		self.country_name = country_name
 
-from bintrees import FastAVLTree
+
+class MaxMindGeoLiteASNCSVParser(DbParser):
+	"""
+	The ASN database parser to load ASN data from the MaxMind CSV
+	"""
+
+	fields = {
+		"long_lower": 0,
+		"long_upper": 1,
+		"asn_corp": 2
+	}
+
+	def parse(self, path=None):
+		if path is None:
+			basepath = os.path.dirname(os.path.abspath(__file__))
+			path = os.path.join(basepath, "data", "GeoIPASNum2.csv")
+
+		if not os.path.exists(path):
+			raise IOError("File not found: %s" % path)
+
+		with open(path) as csvfile:
+			asnreader = csv.reader(csvfile)
+			for line in asnreader:
+				node = self.create_node(line)
+				value = self.create_value(line)
+				yield (node, value)
+
+	def create_node(self, line):
+		"""
+		Creates a GeoNode from a line of the parsed CSV file.
+		"""
+		return GeoNode(long(line[self.fields["long_lower"]]), long(line[self.fields["long_upper"]]))
+
+	def create_value(self, line):
+		"""
+		Creates an ASNValue from a line of the parsed CSV file.
+		"""
+		return ASNValue(long(line[self.fields["long_lower"]]), long(line[self.fields["long_upper"]]), line[self.fields["asn_corp"]])
+
+
+class ASNValue(object):
+	def __init__(self, ip_lower, ip_upper, asn):
+		self.ip_lower = ip_lower
+		self.ip_upper = ip_upper
+		self.asn = asn
+
 
 class GeoDB(object):
 	"""

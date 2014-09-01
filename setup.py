@@ -7,7 +7,7 @@ setup(name="FastGeo",
 		author="Ryan Merl",
 		author_email="ryan@ryanmerl.com",
 		url="https://github.com/theanti9/FastGeo",
-		version="0.1.2",
+		version="0.1.3",
 		install_requires=[
 			"bintrees>=2.0.1"
 		],
